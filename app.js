@@ -16,7 +16,7 @@ const { createUser, login, logOut } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUserValidationSchema, loginValidationSchema } = require('./routes/shemaValidation');
 
-mongoose.connect(config.env === 'production' ? config.mongoDbUrl : 'mongodb://158.160.51.43:27017/bitfilmsdb');
+mongoose.connect(config.env === 'production' ? config.mongoDbUrl : 'mongodb://127.0.0.1:27017/bitfilmsdb');
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
