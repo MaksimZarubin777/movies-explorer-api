@@ -40,9 +40,9 @@ const deleteMovie = (req, res, next) => {
       if (String(movie.owner) !== req.user._id) {
         throw new ForbiddenError(FILM_WRONG_OWNER);
       }
-      return Movie.deleteOne({ _id: String(movie._id) })
-        .then((deletedMovie) => {
-          res.status(OK_STATUS).send({ data: deletedMovie });
+      return movie.deleteOne({ _id: String(movie._id) })
+        .then(() => {
+          res.status(OK_STATUS).send({ data: movie });
         })
         .catch(next);
     })
