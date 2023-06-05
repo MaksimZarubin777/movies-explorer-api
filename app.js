@@ -8,15 +8,16 @@ const limiter = require('./limiter');
 const app = express();
 const config = require('./config');
 const auth = require('./middlewares/auth');
+const { MONGO_URL, NOT_FOUND } = require('./constants');
 const { NotFoundError } = require('./errors');
 const { handleCors } = require('./middlewares/cors');
 const errorsHandler = require('./middlewares/errorsHandler');
-const { userRouter, movieRouter } = require('./routes/index');
+const routes = require('./routes/index');
 const { createUser, login, logOut } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUserValidationSchema, loginValidationSchema } = require('./routes/shemaValidation');
 
-mongoose.connect(config.env === 'production' ? config.mongoDbUrl : 'mongodb://127.0.0.1:27017/bitfilmsdb');
+mongoose.connect(config.env === 'production' ? config.mongoDbUrl : MONGO_URL);
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
@@ -27,10 +28,9 @@ app.post('/signup', celebrate({ body: createUserValidationSchema }), createUser)
 app.post('/signin', celebrate({ body: loginValidationSchema }), login);
 app.use('/signout', logOut);
 app.use(auth);
-app.use('/users', userRouter);
-app.use('/movies', movieRouter);
+app.use(routes);
 app.use((req, res, next) => {
-  next(new NotFoundError('Запрашиваемый ресурс не найден'));
+  next(new NotFoundError(NOT_FOUND));
 });
 app.use(errorLogger);
 app.use(errors());

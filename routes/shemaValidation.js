@@ -15,6 +15,7 @@ const loginValidationSchema = Joi.object().keys({
 
 const userUpdateValidationSchema = Joi.object().keys({
   name: Joi.string().required().min(2).max(30),
+  email: Joi.string().required().email(),
 });
 
 // MOVIE VALIDATION
