@@ -35,7 +35,4 @@ app.use((req, res, next) => {
 app.use(errorLogger);
 app.use(errors());
 app.use(errorsHandler);
-app.listen(config.port, () => {
-  // eslint-disable-next-line no-console
-  console.log('Server started');
-});
+app.listen(config.port);

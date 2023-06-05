@@ -11,33 +11,8 @@ const savedMovies = (req, res, next) => {
 };
 
 const createMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    nameRU,
-    nameEN,
-    movieId,
-  } = req.body;
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    nameRU,
-    nameEN,
-    movieId,
-    owner: req.user._id,
-  })
+  const movieData = { ...req.body, owner: req.user._id };
+  Movie.create(movieData)
     .then((movie) => {
       res.status(201).send({ data: movie });
     })
