@@ -68,19 +68,25 @@ const getMe = (req, res, next) => {
 const updateMe = (req, res, next) => {
   const { name, email } = req.body;
   const myId = req.user._id;
+
   User.findOne({ email })
-    .then((existinguser) => {
-      console.log(existinguser);
+    .then((existingUser) => {
+      if (existingUser && existingUser._id.toString() !== myId) {
+        throw new ConflictError(DUBLICATE_EMAIL);
+      }
+
       return User.findByIdAndUpdate(myId, { name, email }, { new: true, runValidators: true })
-        .orFail(new NotFoundError(USER_NOT_FOUND))
-        .then((user) => res.send({ data: user }))
-        .catch((err) => {
-          if (err instanceof mongoose.Error.ValidationError) {
-            next(new BadRequestError(USER_WRONG_UPDATE));
-          } else {
-            next(err);
-          }
-        });
+        .orFail(new NotFoundError(USER_NOT_FOUND));
+    })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      if (err instanceof mongoose.Error.ValidationError) {
+        next(new BadRequestError(USER_WRONG_UPDATE));
+      } else {
+        next(err);
+      }
     });
 };
 
