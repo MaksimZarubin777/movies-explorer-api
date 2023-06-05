@@ -70,9 +70,7 @@ const updateMe = (req, res, next) => {
   const myId = req.user._id;
   User.findOne({ email })
     .then((existinguser) => {
-      if (existinguser && existinguser._id.toString() !== myId) {
-        throw new ConflictError(DUBLICATE_EMAIL);
-      }
+      console.log(existinguser);
       return User.findByIdAndUpdate(myId, { name, email }, { new: true, runValidators: true })
         .orFail(new NotFoundError(USER_NOT_FOUND))
         .then((user) => res.send({ data: user }))
