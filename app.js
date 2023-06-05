@@ -8,7 +8,7 @@ const limiter = require('./limiter');
 const app = express();
 const config = require('./config');
 const auth = require('./middlewares/auth');
-const { MONGO_URL, NOT_FOUND } = require('./constants');
+const { NOT_FOUND } = require('./constants');
 const { NotFoundError } = require('./errors');
 const { handleCors } = require('./middlewares/cors');
 const errorsHandler = require('./middlewares/errorsHandler');
@@ -17,7 +17,7 @@ const { createUser, login, logOut } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUserValidationSchema, loginValidationSchema } = require('./routes/shemaValidation');
 
-mongoose.connect(config.env === 'production' ? config.mongoDbUrl : MONGO_URL);
+mongoose.connect(config.env === 'production' ? config.mongoDbUrl : process.env.MONGO_URL);
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
