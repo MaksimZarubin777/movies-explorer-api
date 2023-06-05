@@ -55,17 +55,17 @@ const deleteMovie = (req, res, next) => {
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Такой фильм не найден');
-      } else {
-        if (String(movie.owner) !== req.user._id) {
-          throw new ForbiddenError('Нельзя удалить чужой фильм');
-        }
-        return Movie.deleteOne({ _id: String(movie._id) })
-          .then((deletedMovie) => {
-            res.status(201).send({ data: deletedMovie });
-          })
-          .catch(next);
       }
-    });
+      if (String(movie.owner) !== req.user._id) {
+        throw new ForbiddenError('Нельзя удалить чужой фильм');
+      }
+      return Movie.deleteOne({ _id: String(movie._id) })
+        .then((deletedMovie) => {
+          res.status(201).send({ data: deletedMovie });
+        })
+        .catch(next);
+    })
+    .catch(next);
 };
 
 module.exports = {
