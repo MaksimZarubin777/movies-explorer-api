@@ -17,8 +17,8 @@ const { createUser, login, logOut } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUserValidationSchema, loginValidationSchema } = require('./routes/shemaValidation');
 
-// mongoose.connect(config.env === 'production' ? config.mongoDbUrl : process.env.MONGO_URL);
-mongoose.connect('mongodb://localhost:27017/mestodb');
+mongoose.connect(config.env === 'production' ? config.mongoDbUrl : process.env.MONGO_URL);
+// mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
