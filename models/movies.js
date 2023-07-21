@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { urlRegExp, ruRegExp, enRegExp } = require('../constants');
+const { urlRegExp } = require('../constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -58,18 +58,10 @@ const movieSchema = new mongoose.Schema({
   nameRU: {
     type: String,
     required: true,
-    validate: {
-      validator: (v) => ruRegExp.test(v),
-      message: (props) => `${props.value} - неверный формат записи названия фильма. Название должно быть на русском языке`,
-    },
   },
   nameEN: {
     type: String,
     required: true,
-    validate: {
-      validator: (v) => enRegExp.test(v),
-      message: (props) => `${props.value} - неверный формат записи названия фильма. Название должно быть на английском языке`,
-    },
   },
 });
 

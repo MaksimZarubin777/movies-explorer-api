@@ -1,5 +1,5 @@
 const { Joi } = require('celebrate');
-const { urlRegExp, ruRegExp, enRegExp } = require('../constants');
+const { urlRegExp } = require('../constants');
 
 // USER VALIDATION
 const createUserValidationSchema = Joi.object().keys({
@@ -29,8 +29,8 @@ const movieCreateValidationSchema = Joi.object().keys({
   trailerLink: Joi.string().required().pattern(urlRegExp),
   thumbnail: Joi.string().required().pattern(urlRegExp),
   movieId: Joi.number().required(),
-  nameRU: Joi.string().required().pattern(ruRegExp),
-  nameEN: Joi.string().required().pattern(enRegExp),
+  nameRU: Joi.string().required(),
+  nameEN: Joi.string().required(),
 });
 
 const idValidationSchema = Joi.object({

@@ -17,7 +17,8 @@ const { createUser, login, logOut } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUserValidationSchema, loginValidationSchema } = require('./routes/shemaValidation');
 
-mongoose.connect(config.env === 'production' ? config.mongoDbUrl : process.env.MONGO_URL);
+// mongoose.connect(config.env === 'production' ? config.mongoDbUrl : process.env.MONGO_URL);
+mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
@@ -35,4 +36,6 @@ app.use((req, res, next) => {
 app.use(errorLogger);
 app.use(errors());
 app.use(errorsHandler);
-app.listen(config.port);
+app.listen(config.port, () => {
+  console.log(`Сервер запущен на порту ${config.port}`);
+});

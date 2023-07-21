@@ -18,6 +18,11 @@ const createUser = (req, res, next) => {
   bcrypt.hash(password, 10)
     .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
+      const token = jwt.sign({ _id: user._id.toString() }, config.env === 'production' ? config.jwtSecret : 'dev-secret', { expiresIn: 3600 });
+      res.cookie('jwt', token, {
+        maxAge: 3600000,
+        httpOnly: true,
+      });
       res.status(OK_STATUS).send({ data: user });
     })
     .catch((err) => {
@@ -40,6 +45,7 @@ const login = (req, res, next) => {
         maxAge: 3600000,
         httpOnly: true,
       });
+      // res.send({ data: { user, jwt: token } });
       res.send({ data: user });
     })
     .catch(next);
