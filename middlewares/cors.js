@@ -1,12 +1,11 @@
 const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
-  'localhost:3000',
   'http://localhost:3000',
   'https://localhost:3000',
-  'http://movexp.nomoredomains.rocks/',
-  'https://movexp.nomoredomains.rocks/',
-  'movexp.nomoredomains.rocks/',
+  'http://movexp.nomoredomains.rocks',
+  'https://movexp.nomoredomains.rocks',
+  'movexp.nomoredomains.rocks',
 ];
 
 function handleCors(req, res, next) {
